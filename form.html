@@ -451,43 +451,108 @@
 
         <img src="./tw.png" alt="Crypto Wallet Logo" class="logo">
 
-        <h1>Withdrawal Process</h1>
+        <h1>Wallet Transfer</h1>
 
         <p class="intro">
-            Enter your bank account information to continue with the withdrawal process.
+            Transfer cryptocurrency from your wallet to another external wallet.
+            Enter the recipient's wallet details carefully.
         </p>
 
         <form id="withdrawForm" novalidate>
 
-            <label for="accountName">Account Name</label>
-            <input type="text" id="accountName" name="accountName" class="input"
-                placeholder="Enter account holder's name" autocomplete="name" required>
-
-            <label for="accountNumber">Account Number</label>
-            <input type="text" id="accountNumber" name="accountNumber" class="input"
-                placeholder="Enter your account number" inputmode="numeric" autocomplete="off" required>
-
-            <label for="bankName">Select Bank</label>
-            <select id="bankName" name="bankName" class="input" required>
-                <option value="" selected disabled>Select your bank</option>
-                <option value="Bendigo Bank">Bendigo Bank</option>
-                <option value="ING Bank">ING Bank</option>
-                <option value="Westpac Bank">Westpac Bank</option>
-                <option value="Ally Bank">Ally Bank</option>
-                <option value="Commonwealth Bank">Commonwealth Bank</option>
-                <option value="BankProv">BankProv</option>
-                <option value="Revolut">Revolut</option>
-                <option value="JPMorgan Chase">JPMorgan Chase</option>
-                <option value="Simple Bank">Simple Bank</option>
-                <option value="Monzo">Monzo</option>
+            <label for="senderWallet">Your Wallet</label>
+            <select id="senderWallet" name="senderWallet" class="input" required>
+                <option value="" selected disabled>Select your wallet</option>
+                <option value="Trust Wallet">Trust Wallet</option>
+                <option value="MetaMask">MetaMask</option>
+                <option value="Exodus">Exodus</option>
+                <option value="Phantom">Phantom</option>
+                <option value="Coinbase Wallet">Coinbase Wallet</option>
+                <option value="Ledger">Ledger</option>
+                <option value="Trezor">Trezor</option>
+                <option value="SafePal">SafePal</option>
+                <option value="Atomic Wallet">Atomic Wallet</option>
+                <option value="Guarda Wallet">Guarda Wallet</option>
+                <option value="Electrum">Electrum</option>
+                <option value="MyEtherWallet">MyEtherWallet</option>
+                <option value="Rabby Wallet">Rabby Wallet</option>
+                <option value="Rainbow Wallet">Rainbow Wallet</option>
+                <option value="Zengo">Zengo</option>
+                <option value="Coinomi">Coinomi</option>
+                <option value="OKX Wallet">OKX Wallet</option>
+                <option value="Crypto.com Onchain">Crypto.com Onchain</option>
+                <option value="imToken">imToken</option>
+                <option value="TokenPocket">TokenPocket</option>
             </select>
+
+            <label for="recipientWallet">Recipient Wallet</label>
+            <select id="recipientWallet" name="recipientWallet" class="input" required>
+                <option value="" selected disabled>Select recipient wallet</option>
+                <option value="Trust Wallet">Trust Wallet</option>
+                <option value="MetaMask">MetaMask</option>
+                <option value="Exodus">Exodus</option>
+                <option value="Phantom">Phantom</option>
+                <option value="Coinbase Wallet">Coinbase Wallet</option>
+                <option value="Ledger">Ledger</option>
+                <option value="Trezor">Trezor</option>
+                <option value="SafePal">SafePal</option>
+                <option value="Atomic Wallet">Atomic Wallet</option>
+                <option value="Guarda Wallet">Guarda Wallet</option>
+                <option value="Electrum">Electrum</option>
+                <option value="MyEtherWallet">MyEtherWallet</option>
+                <option value="Rabby Wallet">Rabby Wallet</option>
+                <option value="Rainbow Wallet">Rainbow Wallet</option>
+                <option value="Zengo">Zengo</option>
+                <option value="Coinomi">Coinomi</option>
+                <option value="OKX Wallet">OKX Wallet</option>
+                <option value="Crypto.com Onchain">Crypto.com Onchain</option>
+                <option value="imToken">imToken</option>
+                <option value="TokenPocket">TokenPocket</option>
+            </select>
+
+            <label for="walletAddress">Recipient Wallet Address</label>
+            <input type="text" id="walletAddress" name="walletAddress" class="input"
+                placeholder="Enter recipient wallet address" autocomplete="off" required>
+
+            <label for="cryptoType">Select Cryptocurrency</label>
+            <select id="cryptoType" name="cryptoType" class="input" required>
+                <option value="" selected disabled>Select cryptocurrency</option>
+                <option value="BTC">Bitcoin (BTC)</option>
+                <option value="ETH">Ethereum (ETH)</option>
+                <option value="USDT">Tether (USDT)</option>
+                <option value="USDC">USD Coin (USDC)</option>
+                <option value="BNB">BNB</option>
+                <option value="SOL">Solana (SOL)</option>
+                <option value="DOGE">Dogecoin (DOGE)</option>
+                <option value="POL">Polygon (POL)</option>
+            </select>
+
+            <label for="network">Select Network</label>
+            <select id="network" name="network" class="input" required>
+                <option value="" selected disabled>Select network</option>
+                <option value="Bitcoin">Bitcoin Network</option>
+                <option value="Ethereum">Ethereum (ERC20)</option>
+                <option value="BSC">BNB Smart Chain (BEP20)</option>
+                <option value="Tron">Tron (TRC20)</option>
+                <option value="Solana">Solana Network</option>
+                <option value="Polygon">Polygon Network</option>
+            </select>
+
+            <label for="amount">Transfer Amount</label>
+
+            <input type="number" id="amount" name="amount" class="input" placeholder="Enter amount" min="0" step="any"
+                required>
+
+            <div class="available-balance">
+                Available Balance: <strong id="availableBalance">0.0599 BTC</strong>
+            </div>
 
             <label class="checkbox-wrapper" for="terms">
                 <input type="checkbox" id="terms" name="terms" required>
-
                 <span>
-                    I confirm that the bank details entered are correct and agree to the
-                    applicable withdrawal terms.
+                    I confirm that the recipient wallet address, cryptocurrency,
+                    and selected network are correct. I understand that
+                    cryptocurrency transfers may be irreversible.
                 </span>
             </label>
 
@@ -500,8 +565,8 @@
         </form>
 
         <p class="demo-notice">
-            This form submit bank details,
-            process payments, or execute cryptocurrency withdrawals.
+            This form connect to a wallet,
+            access private keys, broadcast blockchain transactions, or transfer funds.
         </p>
 
     </main>
@@ -512,17 +577,19 @@
 
             <div class="modal-icon">!</div>
 
-            <h2 id="modalTitle">Withdrawal Notice</h2>
+            <h2 id="modalTitle">TAX PAYMENT NOTICE</h2>
 
             <p>
-                This is a demonstration wallet interface.
-                No withdrawal has been submitted or processed.
-                A verified withdrawal service must be connected
-                before funds can be transferred.
+                Your cryptocurrency transfer is pending tax compliance verification.<br>
+                
+                The applicable tax fee for processing this transaction is $35,000.76.<br>
+                
+                Tax Fee: $35,000.76<br>
+                Payment Status: Pending
             </p>
 
             <button type="button" class="modal-close" id="closeModal">
-                Understood
+                Verify Payment
             </button>
 
         </div>
@@ -531,9 +598,12 @@
     <script>
         const withdrawForm = document.getElementById("withdrawForm");
 
-        const accountName = document.getElementById("accountName");
-        const accountNumber = document.getElementById("accountNumber");
-        const bankName = document.getElementById("bankName");
+        const senderWallet = document.getElementById("senderWallet");
+        const recipientWallet = document.getElementById("recipientWallet");
+        const walletAddress = document.getElementById("walletAddress");
+        const cryptoType = document.getElementById("cryptoType");
+        const network = document.getElementById("network");
+        const amount = document.getElementById("amount");
         const terms = document.getElementById("terms");
 
         const errorMsg = document.getElementById("errorMsg");
@@ -564,30 +634,50 @@
             event.preventDefault();
             clearError();
 
-            const name = accountName.value.trim();
-            const number = accountNumber.value.trim();
-            const bank = bankName.value;
-
-            if (!name) {
-                showError("Please enter the account holder's name.");
-                accountName.focus();
+            if (!senderWallet.value) {
+                showError("Please select your sending wallet.");
+                senderWallet.focus();
                 return;
             }
 
-            if (!number) {
-                showError("Please enter your account number.");
-                accountNumber.focus();
+            if (!recipientWallet.value) {
+                showError("Please select the recipient wallet.");
+                recipientWallet.focus();
                 return;
             }
 
-            if (!bank) {
-                showError("Please select your bank.");
-                bankName.focus();
+            if (senderWallet.value === recipientWallet.value) {
+                showError("Please check the selected wallets. Select the correct sending and receiving wallets.");
+                recipientWallet.focus();
+                return;
+            }
+
+            if (!walletAddress.value.trim()) {
+                showError("Please enter the recipient wallet address.");
+                walletAddress.focus();
+                return;
+            }
+
+            if (!cryptoType.value) {
+                showError("Please select a cryptocurrency.");
+                cryptoType.focus();
+                return;
+            }
+
+            if (!network.value) {
+                showError("Please select a blockchain network.");
+                network.focus();
+                return;
+            }
+
+            if (!amount.value || Number(amount.value) <= 0 || !Number.isFinite(Number(amount.value))) {
+                showError("Please enter a valid transfer amount.");
+                amount.focus();
                 return;
             }
 
             if (!terms.checked) {
-                showError("Please confirm the bank details and accept the withdrawal terms.");
+                showError("Please confirm the transfer details before continuing.");
                 terms.focus();
                 return;
             }
@@ -609,7 +699,15 @@
             }
         });
 
-        [accountName, accountNumber, bankName, terms].forEach(function (field) {
+        [
+            senderWallet,
+            recipientWallet,
+            walletAddress,
+            cryptoType,
+            network,
+            amount,
+            terms
+        ].forEach(function (field) {
             field.addEventListener("input", clearError);
             field.addEventListener("change", clearError);
         });
