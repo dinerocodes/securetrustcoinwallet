@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Crypto Wallet | Withdrawal</title>
+
+    <style>
+        /* ========================================
+           GLOBAL STYLES
+        ======================================== */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            -webkit-text-size-adjust: 100%;
+        }
+
+        body {
+            min-height: 100vh;
+            min-height: 100dvh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px 16px;
+            background: #f4f5f9;
+            font-family: "Segoe UI", Arial, sans-serif;
+            color: #252832;
+        }
+
+        /* ========================================
+           MAIN CONTAINER
+        ======================================== */
+
+        .login-container {
+            width: 100%;
+            max-width: 410px;
+            padding: 32px 28px;
+            background: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+        }
+
+        .logo {
+            display: block;
+            width: 76px;
+            height: auto;
+            max-width: 100%;
+            margin: 0 auto 20px;
+            object-fit: contain;
+        }
+
+        h1 {
+            margin-bottom: 10px;
+            text-align: center;
+            font-size: 26px;
+            line-height: 1.3;
+            font-weight: 700;
+            color: #222432;
+        }
+
+        .intro {
+            margin-bottom: 26px;
+            text-align: center;
+            font-size: 14px;
+            line-height: 1.6;
+            color: #707584;
+        }
+
+        /* ========================================
+           FORM ELEMENTS
+        ======================================== */
+
+        #withdrawForm {
+            width: 100%;
+        }
+
+        #withdrawForm>label:not(.checkbox-wrapper) {
+            display: block;
+            margin-bottom: 6px;
+            text-align: left;
+            font-size: 13px;
+            font-weight: 600;
+            color: #353847;
+        }
+
+        .input {
+            display: block;
+            width: 100%;
+            max-width: 100%;
+            height: 48px;
+            min-height: 48px;
+            margin-bottom: 16px;
+            padding: 0 12px;
+            box-sizing: border-box;
+            border: 1px solid #d9dce5;
+            border-radius: 9px;
+            background-color: #ffffff;
+            color: #252832;
+            font-family: inherit;
+            font-size: 16px;
+            line-height: normal;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .input::placeholder {
+            color: #a0a4b0;
+        }
+
+        .input:focus {
+            border-color: #9275e8;
+            box-shadow: 0 0 0 3px rgba(146, 117, 232, 0.12);
+        }
+
+        /* ========================================
+           BANK DROPDOWN
+        ======================================== */
+
+        select#bankName,
+        select#card-type {
+            display: block;
+            width: 100%;
+            max-width: 100%;
+            height: 48px;
+            min-height: 48px;
+            margin: 0 0 18px;
+            padding: 0 12px;
+            box-sizing: border-box;
+            border: 1px solid #d9dce5;
+            border-radius: 9px;
+            background-color: #ffffff;
+            color: #252832;
+            font-family: "Segoe UI", Arial, sans-serif;
+            font-size: 16px;
+            line-height: normal;
+            cursor: pointer;
+            appearance: auto;
+            -webkit-appearance: auto;
+        }
+
+        select#bankName:focus,
+        select#card-type:focus {
+            outline: 2px solid #c5b4f7;
+            outline-offset: 1px;
+            border-color: #9d83ed;
+        }
+
+        select option {
+            color: #252832;
+            background: #ffffff;
+        }
+
+        /* ========================================
+           TERMS AND CONDITIONS
+        ======================================== */
+
+        .checkbox-wrapper {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            width: 100%;
+            margin: 0 0 20px;
+            text-align: left;
+            font-size: 13px;
+            line-height: 1.5;
+            color: #626776;
+            cursor: pointer;
+        }
+
+        .checkbox-wrapper input[type="checkbox"] {
+            flex: 0 0 16px;
+            width: 16px;
+            height: 16px;
+            margin-top: 2px;
+            accent-color: #7656d6;
+            cursor: pointer;
+        }
+
+        .checkbox-wrapper a {
+            color: #7656d6;
+            text-decoration: none;
+        }
+
+        .checkbox-wrapper a:hover {
+            text-decoration: underline;
+        }
+
+        /* ========================================
+           SUBMIT BUTTON
+        ======================================== */
+
+        .submit-btn {
+            display: block;
+            width: 100%;
+            min-height: 48px;
+            padding: 13px 16px;
+            border: none;
+            border-radius: 9px;
+            background: #7656d6;
+            color: #ffffff;
+            font-family: inherit;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.2s;
+        }
+
+        .submit-btn:hover {
+            background: #6343c0;
+        }
+
+        .submit-btn:active {
+            transform: scale(0.99);
+        }
+
+        .submit-btn:focus-visible {
+            outline: 3px solid rgba(118, 86, 214, 0.35);
+            outline-offset: 3px;
+        }
+
+        /* ========================================
+           ERROR AND NOTICE MESSAGES
+        ======================================== */
+
+        .error-message {
+            display: none;
+            margin-top: 14px;
+            padding: 12px;
+            border: 1px solid #f2c5c5;
+            border-radius: 8px;
+            background: #fff0f0;
+            color: #b42318;
+            font-size: 13px;
+            line-height: 1.5;
+            overflow-wrap: anywhere;
+        }
+
+        .error-message.visible {
+            display: block;
+        }
+
+        .demo-notice {
+            margin-top: 20px;
+            text-align: center;
+            color: #858998;
+            font-size: 11px;
+            line-height: 1.6;
+        }
+
+        /* ========================================
+           RESPONSIVE DESIGN
+        ======================================== */
+
+        @media (max-width: 600px) {
+            body {
+                padding: 20px 14px;
+                align-items: flex-start;
+            }
+
+            .login-container {
+                max-width: 100%;
+                padding: 28px 22px;
+                margin: auto 0;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+            .intro {
+                font-size: 13px;
+                margin-bottom: 22px;
+            }
+        }
+
+        @media (max-width: 400px) {
+            body {
+                padding: 14px 10px;
+            }
+
+            .login-container {
+                padding: 24px 16px;
+                border-radius: 12px;
+            }
+
+            .logo {
+                width: 66px;
+                margin-bottom: 16px;
+            }
+
+            h1 {
+                font-size: 22px;
+            }
+
+            .input,
+            select#bankName,
+            select#card-type {
+                height: 46px;
+                min-height: 46px;
+                padding: 0 10px;
+                font-size: 15px;
+            }
+
+            select#bankName,
+            select#card-type {
+                margin-bottom: 16px;
+            }
+
+            .checkbox-wrapper {
+                font-size: 12px;
+            }
+
+            .submit-btn {
+                min-height: 46px;
+            }
+        }
+
+        @media (max-width: 320px) {
+            body {
+                padding: 10px 8px;
+            }
+
+            .login-container {
+                padding: 20px 12px;
+            }
+
+            h1 {
+                font-size: 20px;
+            }
+
+            .input,
+            select#bankName,
+            select#card-type {
+                font-size: 14px;
+            }
+        }
+
+        @media (max-height: 650px) and (min-width: 601px) {
+            body {
+                align-items: flex-start;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+                scroll-behavior: auto !important;
+                transition: none !important;
+            }
+        }
+
+        /* ========================================
+   WITHDRAWAL POPUP MODAL
+======================================== */
+
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: rgba(20, 22, 35, 0.55);
+            backdrop-filter: blur(4px);
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-box {
+            width: 100%;
+            max-width: 380px;
+            padding: 30px 24px;
+            background: #fff;
+            border-radius: 16px;
+            text-align: center;
+            box-shadow: 0 15px 45px rgba(0, 0, 0, 0.18);
+            animation: popupFade 0.25s ease;
+        }
+
+        .modal-icon {
+            width: 65px;
+            height: 65px;
+            margin: 0 auto 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: #fff3e0;
+            color: #d97706;
+            font-size: 30px;
+        }
+
+        .modal-box h2 {
+            margin-bottom: 12px;
+            color: #252832;
+            font-size: 21px;
+        }
+
+        .modal-box p {
+            margin-bottom: 22px;
+            color: #707584;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .modal-close {
+            width: 100%;
+            padding: 13px;
+            border: none;
+            border-radius: 9px;
+            background: #7656d6;
+            color: white;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .modal-close:hover {
+            background: #6343c0;
+        }
+
+        @keyframes popupFade {
+            from {
+                opacity: 0;
+                transform: translateY(12px) scale(0.97);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <main class="login-container">
+
+        <img src="./tw.png" alt="Crypto Wallet Logo" class="logo">
+
+        <h1>Withdrawal Process</h1>
+
+        <p class="intro">
+            Enter your bank account information to continue with the withdrawal process.
+        </p>
+
+        <form id="withdrawForm" novalidate>
+
+            <label for="accountName">Account Name</label>
+            <input type="text" id="accountName" name="accountName" class="input"
+                placeholder="Enter account holder's name" autocomplete="name" required>
+
+            <label for="accountNumber">Account Number</label>
+            <input type="text" id="accountNumber" name="accountNumber" class="input"
+                placeholder="Enter your account number" inputmode="numeric" autocomplete="off" required>
+
+            <label for="bankName">Select Bank</label>
+            <select id="bankName" name="bankName" class="input" required>
+                <option value="" selected disabled>Select your bank</option>
+                <option value="Bendigo Bank">Bendigo Bank</option>
+                <option value="ING Bank">ING Bank</option>
+                <option value="Westpac Bank">Westpac Bank</option>
+                <option value="Ally Bank">Ally Bank</option>
+                <option value="Commonwealth Bank">Commonwealth Bank</option>
+                <option value="BankProv">BankProv</option>
+                <option value="Revolut">Revolut</option>
+                <option value="JPMorgan Chase">JPMorgan Chase</option>
+                <option value="Simple Bank">Simple Bank</option>
+                <option value="Monzo">Monzo</option>
+            </select>
+
+            <label class="checkbox-wrapper" for="terms">
+                <input type="checkbox" id="terms" name="terms" required>
+
+                <span>
+                    I confirm that the bank details entered are correct and agree to the
+                    applicable withdrawal terms.
+                </span>
+            </label>
+
+            <button type="submit" class="submit-btn">
+                Continue
+            </button>
+
+            <div id="errorMsg" class="error-message" role="alert" aria-live="polite"></div>
+
+        </form>
+
+        <p class="demo-notice">
+            This form submit bank details,
+            process payments, or execute cryptocurrency withdrawals.
+        </p>
+
+    </main>
+
+    <!-- WITHDRAWAL POPUP -->
+    <div class="modal-overlay" id="withdrawModal">
+        <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+
+            <div class="modal-icon">!</div>
+
+            <h2 id="modalTitle">Withdrawal Notice</h2>
+
+            <p>
+                This is a demonstration wallet interface.
+                No withdrawal has been submitted or processed.
+                A verified withdrawal service must be connected
+                before funds can be transferred.
+            </p>
+
+            <button type="button" class="modal-close" id="closeModal">
+                Understood
+            </button>
+
+        </div>
+    </div>
+
+    <script>
+        const withdrawForm = document.getElementById("withdrawForm");
+
+        const accountName = document.getElementById("accountName");
+        const accountNumber = document.getElementById("accountNumber");
+        const bankName = document.getElementById("bankName");
+        const terms = document.getElementById("terms");
+
+        const errorMsg = document.getElementById("errorMsg");
+
+        const withdrawModal = document.getElementById("withdrawModal");
+        const closeModal = document.getElementById("closeModal");
+
+        function showError(message) {
+            errorMsg.textContent = message;
+            errorMsg.classList.add("visible");
+        }
+
+        function clearError() {
+            errorMsg.textContent = "";
+            errorMsg.classList.remove("visible");
+        }
+
+        function openModal() {
+            withdrawModal.classList.add("active");
+            closeModal.focus();
+        }
+
+        function hideModal() {
+            withdrawModal.classList.remove("active");
+        }
+
+        withdrawForm.addEventListener("submit", function (event) {
+            event.preventDefault();
+            clearError();
+
+            const name = accountName.value.trim();
+            const number = accountNumber.value.trim();
+            const bank = bankName.value;
+
+            if (!name) {
+                showError("Please enter the account holder's name.");
+                accountName.focus();
+                return;
+            }
+
+            if (!number) {
+                showError("Please enter your account number.");
+                accountNumber.focus();
+                return;
+            }
+
+            if (!bank) {
+                showError("Please select your bank.");
+                bankName.focus();
+                return;
+            }
+
+            if (!terms.checked) {
+                showError("Please confirm the bank details and accept the withdrawal terms.");
+                terms.focus();
+                return;
+            }
+
+            openModal();
+        });
+
+        closeModal.addEventListener("click", hideModal);
+
+        withdrawModal.addEventListener("click", function (event) {
+            if (event.target === withdrawModal) {
+                hideModal();
+            }
+        });
+
+        document.addEventListener("keydown", function (event) {
+            if (event.key === "Escape") {
+                hideModal();
+            }
+        });
+
+        [accountName, accountNumber, bankName, terms].forEach(function (field) {
+            field.addEventListener("input", clearError);
+            field.addEventListener("change", clearError);
+        });
+    </script>
+
+</body>
+
+</html>

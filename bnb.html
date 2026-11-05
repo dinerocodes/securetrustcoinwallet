@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Crypto Wallet- Trust wallet</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #fff;
+            color: #111;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            font-size: 16px;
+        }
+
+        .header .back {
+            font-size: 22px;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+
+        .header .title {
+            flex-grow: 1;
+            font-weight: 600;
+        }
+
+        .notice {
+            background-color: #f9f1d9;
+            color: #4a3d02;
+            font-size: 14px;
+            padding: 10px 16px;
+            border-radius: 8px;
+            margin: 10px;
+        }
+
+        .price-section {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .price-section .gas {
+            color: green;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+
+        .price {
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .change {
+            color: red;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        .chart {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            margin: 20px;
+            border-radius: 16px;
+            background: #f2f2f2;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .chart img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 12px;
+        }
+
+        .tabs {
+            display: flex;
+            justify-content: space-around;
+            border-bottom: 1px solid #eee;
+            font-size: 14px;
+        }
+
+        .tabs div {
+            padding: 10px;
+            cursor: pointer;
+            flex: 1;
+            text-align: center;
+        }
+
+        .tabs .active {
+            font-weight: bold;
+            border-bottom: 2px solid #007bff;
+            color: #007bff;
+        }
+
+        .balance-section {
+            padding: 1rem;
+        }
+
+        .balance-card {
+            background: #f4f4f4;
+            padding: 15px;
+            border-radius: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .balance-info {
+            display: flex;
+            align-items: center;
+        }
+
+        .balance-info img {
+            width: 35px;
+            height: 32px;
+            margin-right: 10px;
+        }
+
+        .balance-info .name {
+            font-weight: bold;
+        }
+
+        .balance-value {
+            text-align: right;
+        }
+
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background: #fff;
+            display: flex;
+            justify-content: space-around;
+            border-top: 1px solid #ddd;
+            padding: 10px 0;
+        }
+
+        .bottom-nav div {
+            text-align: center;
+            font-size: 12px;
+            color: #333;
+        }
+
+        .bottom-nav .icon {
+            font-size: 20px;
+            margin-bottom: 4px;
+        }
+
+        .bottom-nav .active {
+            color: #0041ff;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Header -->
+    <div class="header">
+        <div class="back"><a href='/dashboard.html' style='text-decoration: none;'>&#8592;</a></div>
+        <div class="title">
+            <div>BNB</div>
+            <small style="color: grey;">COIN | BNB Smart Chain</small>
+        </div>
+        <div style="font-size: 20px; color: #888;">&#9998;</div>
+    </div>
+
+    <!-- Notice -->
+
+
+    <!-- Price & Change -->
+    <div class="price-section">
+        <div class="gas">+$0.000875</div>
+        <div class="price">$654.47</div>
+        <div class="change">&#x25BC; $3.649353 (-0.55%)</div>
+    </div>
+
+    <!-- Chart -->
+    <!-- Chart -->
+    <div class="chart">
+        <img src="./btc-c-removebg-preview.png" alt="">
+    </div>
+
+
+    <!-- Tabs -->
+    <div class="tabs">
+        <div class="active">Holdings</div>
+    </div>
+
+    <!-- Balance -->
+    <div class="balance-section">
+        <div class="balance-card">
+            <div class="balance-info">
+                <img src="./bnb-removebg-preview.png" alt="BTC">
+                <div>
+                    <div class="name">BNB Smart Chain</div>
+                    <div style="font-size: 13px; color: grey;">0.89 BNB</div>
+                </div>
+            </div>
+            <div class="balance-value">
+                <div>$0.89</div>
+                <div style="color: grey;">-$1.04</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Nav -->
+    <div class="bottom-nav">
+        <a href='/form.html' style='text-decoration: none; color: black;'>
+            <div>
+                <div class="icon"><i class="fa-solid fa-arrow-up"></i></div>
+                <div>Send</div>
+            </div>
+        </a>
+        <a href='/recieve.html' style='text-decoration: none; color: black;'>
+            <div>
+                <div class="icon"><i class="fa-solid fa-copy"></i></div>
+                <div>Receive</div>
+            </div>
+        </a>
+        <a href='/buy.html' style='text-decoration: none; color: black;'>
+            <div>
+                <div class="icon"><i class="fa-solid fa-bolt-lightning"></i></div>
+                <div>Buy</div>
+            </div>
+        </a>
+        <a href='/sell.html' style='text-decoration: none; color: black;'>
+            <div>
+                <div class="icon"><i class="fa-solid fa-building-columns"></i></div>
+                <div>Sell</div>
+            </div>
+    </div>
+
+</body>
+
+</html>
