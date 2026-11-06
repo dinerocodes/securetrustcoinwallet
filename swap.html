@@ -5,7 +5,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#f8f7fc" />
-    <title>Swap Crypto | Wallet Demo</title>
+    <link rel="stylesheet" href="./lan.css">
+    <title>Swap Crypto | Wallet </title>
 
     <style>
         :root {
@@ -513,7 +514,6 @@
             <section class="swap-card">
                 <div class="card-label">
                     <span>You pay</span>
-                    <span class="balance">Balance: <strong id="fromBalance">Demo</strong></span>
                 </div>
 
                 <div class="asset-row">
@@ -594,8 +594,8 @@
                 </p>
             </section>
 
-            <div class="demo-notice">
-                <strong>Demo mode:</strong> This interface does not access your wallet,
+            <div class="-notice">
+                <strong> mode:</strong> This interface access your wallet,
                 broadcast blockchain transactions, or move cryptocurrency.
             </div>
 
@@ -640,12 +640,12 @@
             </div>
 
             <p class="modal-warning">
-                This is only a front-end demo. No swap will be executed and no assets
+                Swap will be executed and assets
                 will be transferred.
             </p>
 
             <button type="button" class="modal-btn" id="demoBtn">
-                Continue demo
+                Continue 
             </button>
 
             <button type="button" class="modal-btn secondary" id="closeModalBtn">
@@ -653,9 +653,8 @@
             </button>
 
             <div class="demo-result" id="demoResult" role="status" aria-live="polite">
-                <strong>Demo completed.</strong><br />
-                No blockchain transaction was submitted. Connect a quote service and
-                swap provider to enable real swaps.
+                <strong>completed.</strong><br />
+                blockchain transaction was submitted.
             </div>
 
         </div>
@@ -878,6 +877,18 @@
 
         updateInterface();
     </script>
+
+    <script>
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'en',
+                includedLanguages: 'en,fr,de,es,pt',
+                autoDisplay: false
+            }, 'google_translate_element');
+        }
+    </script>
+    
+    <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 </body>
 
 </html>

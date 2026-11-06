@@ -2,7 +2,6 @@
   const LANGUAGE_KEY = "wallet_language";
   const COUNTRY_KEY = "wallet_country";
 
-  // Country-to-language mapping.
   const COUNTRY_LANGUAGES = {
     // French
     BJ: "fr",
@@ -66,52 +65,97 @@
   };
 
   const translations = window.WALLET_TRANSLATIONS || {};
-
   const supportedLanguages = ["en", "fr", "de", "es"];
 
   function getLanguage() {
     return localStorage.getItem(LANGUAGE_KEY) || "en";
   }
 
-  // Translate page elements.
-  function translatePage(language) {
+  // Translate normal text nodes without requiring data-i18n.
+  function translateTextNodes(dictionary) {
+    const walker = document.createTreeWalker(
+      document.body,
+      NodeFilter.SHOW_TEXT,
+      {
+        acceptNode(node) {
+          const parent = node.parentElement;
+
+          if (!parent) return NodeFilter.FILTER_REJECT;
+
+          if (
+            parent.closest(
+              "script, style, noscript, textarea, [data-no-translate]",
+            )
+          ) {
+            return NodeFilter.FILTER_REJECT;
+          }
+
+          return NodeFilter.FILTER_ACCEPT;
+        },
+      },
+    );
+
+    while (walker.nextNode()) {
+      const node = walker.currentNode;
+
+      // Preserve the original English text for future switching.
+      if (node.__walletOriginalText === undefined) {
+        node.__walletOriginalText = node.nodeValue;
+      }
+
+      const original = node.__walletOriginalText;
+      const key = original.trim();
+
+      if (dictionary[key] !== undefined) {
+        const leading = original.match(/^\s*/)[0];
+        const trailing = original.match(/\s*$/)[0];
+
+        node.nodeValue = leading + dictionary[key] + trailing;
+      }
+    }
+  }
+
+  function translateAttributes(dictionary) {
+    document
+      .querySelectorAll(
+        "[data-i18n], [data-i18n-placeholder], [data-i18n-title], [data-i18n-aria]",
+      )
+      .forEach((element) => {
+        const key = element.dataset.i18n;
+
+        if (key && dictionary[key] !== undefined) {
+          element.textContent = dictionary[key];
+        }
+
+        const placeholder = element.dataset.i18nPlaceholder;
+
+        if (placeholder && dictionary[placeholder] !== undefined) {
+          element.placeholder = dictionary[placeholder];
+        }
+
+        const title = element.dataset.i18nTitle;
+
+        if (title && dictionary[title] !== undefined) {
+          element.title = dictionary[title];
+        }
+
+        const aria = element.dataset.i18nAria;
+
+        if (aria && dictionary[aria] !== undefined) {
+          element.setAttribute("aria-label", dictionary[aria]);
+        }
+      });
+  }
+
+  function translatePage(language = getLanguage()) {
     const selectedLanguage = translations[language] ? language : "en";
 
     const dictionary = translations[selectedLanguage];
 
     document.documentElement.lang = selectedLanguage;
 
-    document.querySelectorAll("[data-i18n]").forEach((element) => {
-      const key = element.getAttribute("data-i18n");
-
-      if (dictionary[key] !== undefined) {
-        element.textContent = dictionary[key];
-      }
-    });
-
-    document.querySelectorAll("[data-i18n-placeholder]").forEach((element) => {
-      const key = element.getAttribute("data-i18n-placeholder");
-
-      if (dictionary[key] !== undefined) {
-        element.placeholder = dictionary[key];
-      }
-    });
-
-    document.querySelectorAll("[data-i18n-title]").forEach((element) => {
-      const key = element.getAttribute("data-i18n-title");
-
-      if (dictionary[key] !== undefined) {
-        element.title = dictionary[key];
-      }
-    });
-
-    document.querySelectorAll("[data-i18n-aria]").forEach((element) => {
-      const key = element.getAttribute("data-i18n-aria");
-
-      if (dictionary[key] !== undefined) {
-        element.setAttribute("aria-label", dictionary[key]);
-      }
-    });
+    translateTextNodes(dictionary);
+    translateAttributes(dictionary);
 
     const selector = document.getElementById("language-selector");
 
@@ -126,23 +170,21 @@
     );
   }
 
-  // Manual language selection.
   function setLanguage(language) {
     if (!supportedLanguages.includes(language)) return;
+
+    if (!translations[language]) return;
 
     localStorage.setItem(LANGUAGE_KEY, language);
 
     translatePage(language);
   }
 
-  // Detect country through IP.
   async function detectCountry() {
     try {
       const response = await fetch("https://ipapi.co/json/");
 
-      if (!response.ok) {
-        throw new Error("Country detection failed");
-      }
+      if (!response.ok) throw new Error("Detection failed");
 
       const data = await response.json();
 
@@ -153,20 +195,19 @@
       return COUNTRY_LANGUAGES[country] || "en";
     } catch (error) {
       console.warn("Country detection failed:", error);
-
       return "en";
     }
   }
 
-  // Add language selector.
   function createLanguageSelector() {
     if (document.getElementById("language-selector")) return;
 
-    const header =
-      document.querySelector(".header-actions") ||
-      document.querySelector("header");
+    const header = document.querySelector(".header-actions");
 
-    if (!header) return;
+    if (!header) {
+      console.warn("Wallet header not found.");
+      return;
+    }
 
     const wrapper = document.createElement("div");
 
@@ -174,15 +215,10 @@
 
     wrapper.innerHTML = `
             <select id="language-selector" aria-label="Choose language">
-
                 <option value="en">🇬🇧 English</option>
-
                 <option value="fr">🇫🇷 Français</option>
-
                 <option value="de">🇩🇪 Deutsch</option>
-
                 <option value="es">🇪🇸 Español</option>
-
             </select>
         `;
 
@@ -190,40 +226,40 @@
 
     selector.value = getLanguage();
 
-    selector.addEventListener("change", function () {
-      setLanguage(this.value);
+    selector.addEventListener("change", () => {
+      setLanguage(selector.value);
     });
 
     header.appendChild(wrapper);
   }
 
-  // Initialize system.
   async function initializeLocalization() {
     let language = localStorage.getItem(LANGUAGE_KEY);
 
-    // Detect language only on first visit.
-    if (!language) {
+    if (!language || !supportedLanguages.includes(language)) {
       language = await detectCountry();
-
       localStorage.setItem(LANGUAGE_KEY, language);
     }
 
     createLanguageSelector();
-
     translatePage(language);
+
+    // Translate content added dynamically after page loading.
+    const observer = new MutationObserver(() => {
+      translatePage(getLanguage());
+    });
+
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true,
+    });
   }
 
-  // Public API.
   window.WalletLocalization = {
     setLanguage,
-
     getLanguage,
-
     translatePage,
-
-    getCountry() {
-      return localStorage.getItem(COUNTRY_KEY);
-    },
+    getCountry: () => localStorage.getItem(COUNTRY_KEY),
   };
 
   if (document.readyState === "loading") {

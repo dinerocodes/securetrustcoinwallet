@@ -574,7 +574,7 @@
 
             <section class="summary-card">
                 <div class="summary-label">Current wallet balance</div>
-                <div class="summary-amount" id="walletBalance">$2,000,302.24</div>
+                <div class="summary-amount" id="walletBalance">$15,000,302.24</div>
 
                 <div class="summary-stats">
                     <div>
@@ -1104,7 +1104,7 @@
             }
         ];
 
-        const TARGET_BALANCE = 2000302.24;
+        const TARGET_BALANCE = 15000302.24;
 
         const money = value =>
             new Intl.NumberFormat("en-US", {
@@ -1134,7 +1134,7 @@
             failed: "Failed"
         };
 
-        // Generate exactly 40 dated demo records between January 5 and November 2.
+        // Generate exactly 40 dated  records between January 5 and November 2.
         const startDate = new Date(2026, 0, 5, 9, 0, 0);
         const endDate = new Date(2026, 10, 2, 15, 30, 0);
 
@@ -1145,7 +1145,7 @@
                 (endDate.getTime() - startDate.getTime()) * (index / 39);
 
             transaction.id = `TX-2026-${String(index + 1).padStart(4, "0")}`;
-            transaction.reference = `DEMO-REF-${String(index + 1).padStart(5, "0")}`;
+            transaction.reference = `-REF-${String(index + 1).padStart(5, "0")}`;
             transaction.date = new Date(timestamp).toISOString().slice(0, 19);
 
             return transaction;
